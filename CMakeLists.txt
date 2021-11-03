@@ -8,6 +8,7 @@ add_definitions(-DANTLR4CPP_STATIC)
 include(ExternalAntlr4Cpp)
 set(ANTLR_EXECUTABLE /usr/local/lib/antlr-4.9.2-complete.jar)
 set(ANTLR4_RUNTIME_LIBRARIES /usr/local/lib)
+include_directories(${ANTLR4_INCLUDE_DIRS})
 
 find_package(ANTLR REQUIRED)
 find_package(LLVM REQUIRED CONFIG)
@@ -24,14 +25,13 @@ include_directories(${LLVM_INCLUDE_DIRS})
 add_definitions(${LLVM_DEFINITIONS})
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
 
-antlr_target(C.g4 BOTH VISITOR)
-
-include_directories(${ANTLR_C_OUTPUT_DIR})
+antlr_target(CTarget C.g4)
+include_directories(${ANTLR_CTarget_OUTPUT_DIR})
 
 # Now build our tools
 add_executable(fgs
 	main.cpp
-	${ANTLR_C_CXX_OUTPUTS}
+	${ANTLR_CTarget_CXX_OUTPUTS}
 	${SOURCE_FILES}
 )
 
