@@ -1,5 +1,37 @@
 lexer grammar CLexer;
 
+// 2.2.1 Character sets
+
+Exclamation: '!';
+Quotation: '"';
+Number: '#';
+Percent: '%';
+Ampersand: '&';
+Apostrophe: '\'';
+LeftParen: '(';
+RightParent: ')';
+Star: '*';
+Plus: '+';
+Comma: ',';
+Hyphen: '-';
+Dot: '.';
+Slash: '/';
+Colon: ':';
+Semicolon: ';';
+LeftAngleBracket: '<';
+Equal: '=';
+RightAngleBracket: '>';
+Question: '?';
+LeftSquareBracket: '[';
+Backslash: '\\';
+RightSquareBracket: ']';
+Caret: '^';
+Underscore: '_';
+LeftCurlyBracket: '{';
+VerticalBar: '|';
+RightCurlyBracket: '}';
+Tilde: '~';
+
 // 3.1.1 Keywords
 
 Auto: 'auto';
@@ -42,3 +74,11 @@ Nondigit:
 
 Digit:
 	[0-9];
+
+// 3.1.3.1 Floating constants
+
+Sign:
+	[+-];
+
+FloatingSuffix:
+	[flFL];
