@@ -55,3 +55,34 @@ hexadecimalConstant:
 integerSuffix:
 	UnsignedSuffix LongSuffix?
 	| LongSuffix UnsignedSuffix?;
+
+// 3.1.3.3 Enumeration constants
+
+enumerationConstant:
+	identifier;
+
+// 3.1.3.4 Character constants
+
+characterConstant:
+	UpperL? Apostrophe cCharSequence Apostrophe;
+
+cCharSequence:
+	cChar+;
+
+cChar:
+	CharSet
+	| escapeSequence;
+
+escapeSequence:
+	simpleEscapeSequence
+	| octalEscapeSequence
+	| hexadecimalEscapeSequence;
+
+simpleEscapeSequence:
+	(Backslash Apostrophe) | (Backslash Quotation) | (Backslash Backslash) | (Backslash LowerA) | (Backslash LowerB) | (Backslash LowerF) | (Backslash LowerN) | (Backslash LowerR) | (Backslash LowerT) | (Backslash LowerV);
+
+octalEscapeSequence:
+	Backslash OctalDigit{1-3};
+
+hexadecimalEscapeSequence:
+	Backslash LowerX HexadecimalDigit+;

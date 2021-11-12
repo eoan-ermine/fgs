@@ -2,6 +2,12 @@ lexer grammar CLexer;
 
 // 2.2.1 Character sets
 
+SourceCharacterSet:
+	[A-Za-z0-9!"#%&'()*+,\-./:;<=>?[\\\]^_{|}~\t\u{11}\u{0}\f ];
+
+CharSet:
+	[A-Za-z0-9!"#%&()*+,\-./:;<=>?[\]^_{|}~\t\u{11}\u{0}\f ];
+
 Exclamation: '!';
 Quotation: '"';
 Number: '#';
@@ -34,11 +40,35 @@ Tilde: '~';
 
 Zero: '0';
 
-UpperE: 'E';
-LowerE: 'e';
+LowerA: 'a';
+UpperA: 'A';
 
-UpperX: 'X';
-LowerX: 'x';
+LowerB: 'b';
+UpperB: 'B';
+
+LowerF: 'f';
+UpperF: 'F';
+
+LowerN: 'n';
+UpperN: 'N';
+
+LowerR: 'r';
+UpperR: 'R';
+
+LowerT: 't';
+UpperT: 'T';
+
+LowerV: 'v';
+UpperV: 'V';
+
+LowerE: 'E';
+UpperE: 'e';
+
+LowerX: 'X';
+UpperX: 'x';
+
+LowerL: 'l';
+UpperL: 'L';
 
 // 3.1.1 Keywords
 
