@@ -10,7 +10,7 @@ Long: 'long';
 Switch: 'switch';
 Case: 'case';
 Enum: 'enum';
-Register: 'register'
+Register: 'register';
 Typedef: 'typedef';
 Char: 'char';
 Extern: 'extern';
