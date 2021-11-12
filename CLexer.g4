@@ -1,0 +1,34 @@
+lexer grammar CLexer;
+
+Auto: 'auto';
+Double: 'double';
+Int: 'int';
+Struct: 'struct';
+Break: 'break';
+Else: 'else';
+Long: 'long';
+Switch: 'switch';
+Case: 'case';
+Enum: 'enum';
+Register: 'register'
+Typedef: 'typedef';
+Char: 'char';
+Extern: 'extern';
+Return: 'return';
+Union: 'union';
+Const: 'const';
+Float: 'float';
+Short: 'short';
+Unsigned: 'unsigned';
+Continue: 'continue';
+For: 'for';
+Signed: 'signed';
+Void: 'void';
+Default: 'default';
+Goto: 'goto';
+Sizeof: 'sizeof';
+Volatile: 'volatile';
+Do: 'do';
+If: 'if';
+Static: 'static';
+While: 'while';
