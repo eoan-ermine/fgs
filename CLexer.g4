@@ -5,8 +5,11 @@ lexer grammar CLexer;
 SourceCharacterSet:
 	[A-Za-z0-9!"#%&'()*+,\-./:;<=>?[\\\]^_{|}~\t\u{11}\u{0}\f ];
 
-CharSet:
+CCharSet:
 	[A-Za-z0-9!"#%&()*+,\-./:;<=>?[\]^_{|}~\t\u{11}\u{0}\f ];
+
+SCharSet:
+	[A-Za-z0-9!#%&()'*+,\-./:;<=>?[\]^_{|}~\t\u{11}\u{0}\f ];
 
 Exclamation: '!';
 Quotation: '"';
@@ -69,6 +72,48 @@ UpperX: 'x';
 
 LowerL: 'l';
 UpperL: 'L';
+
+SubscriptOperator: '[]';
+CallOperator: '()';
+MemberAccesSOperator: '.';
+MemberPointerAccessOperator: '->';
+PreIncOperator: '++';
+PreDecOperator: '--';
+AddressOfOperator: '&';
+MulOperator: '*';
+AddOperator: '+';
+SubOperator: '-';
+BinaryNotOperator: '~';
+LogicalNotOperator: '!';
+SizeofOperator: 'sizeof';
+DivOperator: '/';
+RemOperator: '%';
+LeftShiftOperator: '<<';
+RightShiftOperator: '>>';
+LessOperator: '<';
+GreaterOperator: '>';
+LessEqualOperator: '<=';
+GreaterEqualOperator: '>=';
+EqualOperator: '==';
+NotEqualOperator: '!=';
+XorOperator: '^';
+BinaryOrOperator: '|';
+LogicalAndOperator: '&&';
+LogicalOrOperator: '||';
+TernaryOperator: '?:';
+AssignOperator: '=';
+MulAssignOperator: '*=';
+DivAssignOperator: '/=';
+RemAssignOperator: '%=';
+AddAssignOperator: '+=';
+SubAssignOperator: '-=';
+LeftShiftAssignOperator: '<<=';
+RightShiftAssignOperator: '>>=';
+BinaryAndAssignOperator: '&=';
+XorAssignOperator: '^=';
+BinaryOrAssignOperator: '|=';
+TokenOperator: '#';
+ConcatenationOperator: '##';
 
 // 3.1.1 Keywords
 

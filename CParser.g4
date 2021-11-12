@@ -27,8 +27,8 @@ floatingConstant:
 	| digitSequence exponentPart FloatingSuffix?;
 
 fractionalConstant:
-	digitSequence? '.' digitSequence
-	| digitSequence '.';
+	digitSequence? Dot digitSequence
+	| digitSequence Dot;
 
 exponentPart:
 	(LowerE | UpperE) Sign? digitSequence;
@@ -70,7 +70,7 @@ cCharSequence:
 	cChar+;
 
 cChar:
-	CharSet
+	CCharSet
 	| escapeSequence;
 
 escapeSequence:
@@ -86,3 +86,26 @@ octalEscapeSequence:
 
 hexadecimalEscapeSequence:
 	Backslash LowerX HexadecimalDigit+;
+
+// 3.1.4 String literals
+
+stringLiteral:
+	UpperL? Quotation sCharSequence? Quotation;
+
+sCharSequence:
+	sChar+;
+
+sChar:
+	SCharSet
+	| escapeSequence;
+
+// 3.1.5 Operators
+
+operator:
+	SubscriptOperator | CallOperator | MemberAccesSOperator | MemberPointerAccessOperator | PreIncOperator | PreDecOperator | AddressOfOperator | MulOperator | AddOperator | SubOperator | BinaryNotOperator | LogicalNotOperator | SizeofOperator | DivOperator | RemOperator | LeftShiftOperator | RightShiftOperator | LessOperator | GreaterOperator | LessEqualOperator | GreaterEqualOperator | EqualOperator | NotEqualOperator | XorOperator | BinaryOrOperator | LogicalAndOperator | LogicalOrOperator | TernaryOperator | AssignOperator | MulAssignOperator | DivAssignOperator | RemAssignOperator | AddAssignOperator | SubAssignOperator | LeftShiftAssignOperator | RightShiftAssignOperator | BinaryAndAssignOperator | XorAssignOperator | BinaryOrAssignOperator | TokenOperator | ConcatenationOperator;
+
+// 3.1.6 Punctuators
+
+punctuator:
+	SubscriptOperator | CallOperator | 
+	(LeftCurlyBracket RightCurlyBracket) | Star | Comma | Colon | Equal | Semicolon | (Dot Dot Dot) | Number;
