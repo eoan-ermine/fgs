@@ -24,7 +24,7 @@ Percent: '%';
 Ampersand: '&';
 Apostrophe: '\'';
 LeftParen: '(';
-RightParent: ')';
+RightParen: ')';
 Star: '*';
 Plus: '+';
 Comma: ',';
@@ -46,6 +46,8 @@ LeftCurlyBracket: '{';
 VerticalBar: '|';
 RightCurlyBracket: '}';
 Tilde: '~';
+
+Ellipsis: '...';
 
 Zero: '0';
 
@@ -83,8 +85,8 @@ SubscriptOperator: '[]';
 CallOperator: '()';
 MemberAccesSOperator: '.';
 MemberPointerAccessOperator: '->';
-PreIncOperator: '++';
-PreDecOperator: '--';
+IncOperator: '++';
+DecOperator: '--';
 AddressOfOperator: '&';
 MulOperator: '*';
 AddOperator: '+';
@@ -193,3 +195,14 @@ LongSuffix:
 
 Comment:
 	'/*' ~[\\]* '*/' -> skip;
+
+// 3.3.3 Unary operators
+
+UnaryOperator:
+	AddressOfOperator | MulOperator | AddOperator | SubOperator | BinaryNotOperator | LogicalNotOperator;
+
+// 3.3.16 Assignment operators
+
+AssignmentOperator:
+	AssignOperator | MulAssignOperator | DivAssignOperator | RemAssignOperator | AddAssignOperator | SubAssignOperator | LeftShiftAssignOperator | RightShiftAssignOperator | BinaryAndAssignOperator | XorAssignOperator | BinaryOrAssignOperator
+	;

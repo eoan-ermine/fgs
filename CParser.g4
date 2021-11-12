@@ -20,6 +20,15 @@ keyword:
 identifier:
 	Nondigit (Nondigit | Digit)*;
 
+// 3.1.3 Constants
+
+constant:
+	floatingConstant
+	| integerConstant
+	| enumerationConstant
+	| characterConstant
+	;
+
 // 3.1.3.1 Floating constants
 
 floatingConstant:
@@ -102,7 +111,7 @@ sChar:
 // 3.1.5 Operators
 
 operator:
-	SubscriptOperator | CallOperator | MemberAccesSOperator | MemberPointerAccessOperator | PreIncOperator | PreDecOperator | AddressOfOperator | MulOperator | AddOperator | SubOperator | BinaryNotOperator | LogicalNotOperator | SizeofOperator | DivOperator | RemOperator | LeftShiftOperator | RightShiftOperator | LessOperator | GreaterOperator | LessEqualOperator | GreaterEqualOperator | EqualOperator | NotEqualOperator | XorOperator | BinaryOrOperator | LogicalAndOperator | LogicalOrOperator | TernaryOperator | AssignOperator | MulAssignOperator | DivAssignOperator | RemAssignOperator | AddAssignOperator | SubAssignOperator | LeftShiftAssignOperator | RightShiftAssignOperator | BinaryAndAssignOperator | XorAssignOperator | BinaryOrAssignOperator | TokenOperator | ConcatenationOperator;
+	SubscriptOperator | CallOperator | MemberAccesSOperator | MemberPointerAccessOperator | IncOperator | DecOperator | AddressOfOperator | MulOperator | AddOperator | SubOperator | BinaryNotOperator | LogicalNotOperator | SizeofOperator | DivOperator | RemOperator | LeftShiftOperator | RightShiftOperator | LessOperator | GreaterOperator | LessEqualOperator | GreaterEqualOperator | EqualOperator | NotEqualOperator | XorOperator | BinaryOrOperator | LogicalAndOperator | LogicalOrOperator | TernaryOperator | AssignOperator | MulAssignOperator | DivAssignOperator | RemAssignOperator | AddAssignOperator | SubAssignOperator | LeftShiftAssignOperator | RightShiftAssignOperator | BinaryAndAssignOperator | XorAssignOperator | BinaryOrAssignOperator | TokenOperator | ConcatenationOperator;
 
 // 3.1.6 Punctuators
 
@@ -134,3 +143,316 @@ ppNumber:
 	Digit
 	| Dot Digit
 	| ppNumber (Digit | Nondigit | (LowerE Sign) | (UpperE Sign) | Dot)+;
+
+// 3.3.1 Primary expressions
+
+primaryExpression:
+	identifier # PrimaryExprIdentifier
+	| constant # PrimaryExprConstant
+	| stringLiteral	 # PrimaryExprStringLiteral
+	| LeftParen expression RightParen # PrimaryExprParenExpr;
+
+// 3.3.2 Postfix operators
+
+postfixExpression:
+	primaryExpression # Primary
+	| postfixExpression LeftSquareBracket expression RightSquareBracket # Subscript
+	| postfixExpression LeftParen argumentExpressionList? RightParen # Call
+	| postfixExpression MemberAccesSOperator identifier # Access
+	| postfixExpression MemberPointerAccessOperator identifier # PtrAccess
+	| postfixExpression IncOperator # PostInc
+	| postfixExpression DecOperator # PostDec
+	;
+
+argumentExpressionList:
+	assignmentExpression (Comma assignmentExpression)*;
+
+// 3.3.3 Unary operators
+
+unaryExpression:
+	postfixExpression # Postfix
+	| IncOperator unaryExpression # PreInc
+	| DecOperator unaryExpression # PreDec
+	| UnaryOperator castExpression # UnaryCast
+	| Sizeof unaryExpression # SizeofExpr
+	| Sizeof LeftParen typename RightParen # SizeofType
+	;
+
+// 3.3.4 Cast operators
+
+castExpression:
+	unaryExpression
+	| LeftParen typename RightParen castExpression;
+
+// 3.3.5 Multiplicative operators
+
+multiplicativeExpression:
+	castExpression
+	| multiplicativeExpression MulOperator castExpression
+	| multiplicativeExpression DivOperator castExpression
+	| multiplicativeExpression RemOperator castExpression
+	;
+
+// 3.3.6 Additive operators
+
+additiveExpression:
+	multiplicativeExpression
+	| additiveExpression AddOperator multiplicativeExpression
+	| additiveExpression SubOperator multiplicativeExpression
+	;
+
+// 3.3.7 Bitwise shift operators
+
+shiftExpression:
+	additiveExpression
+	| shiftExpression LeftShiftOperator additiveExpression
+	| shiftExpression RightShiftOperator additiveExpression
+	;
+
+// 3.3.8 Relational operators
+
+relationalExpression:
+	shiftExpression
+	| relationalExpression LessOperator shiftExpression
+	| relationalExpression GreaterOperator shiftExpression
+	| relationalExpression LessEqualOperator shiftExpression
+	| relationalExpression GreaterEqualOperator shiftExpression
+	;
+
+// 3.3.9 Equality operators
+
+equalityExpression:
+	relationalExpression
+	| equalityExpression EqualOperator relationalExpression
+	| equalityExpression NotEqualOperator relationalExpression
+	;
+
+// 3.3.10 Bitwise AND operator
+
+andExpression:
+	equalityExpression
+	| andExpression AddressOfOperator equalityExpression
+	;
+
+// 3.3.11 Bitwise exclusive OR operator
+
+exclusiveOrExpression:
+	andExpression
+	| exclusiveOrExpression XorOperator andExpression
+	;
+
+// 3.3.12 Bitwise inclusive OR operator
+
+inclusiveOrExpression:
+	exclusiveOrExpression
+	| inclusiveOrExpression BinaryOrOperator exclusiveOrExpression
+	;
+
+// 3.3.13 Logical AND operator
+
+logicalAndExpression:
+	inclusiveOrExpression
+	| logicalAndExpression LogicalAndOperator inclusiveOrExpression
+	;
+
+// 3.3.14 Logical OR operator
+
+logicalOrExpression:
+	logicalAndExpression
+	| logicalOrExpression LogicalOrOperator logicalAndExpression
+	;
+
+// 3.3.15 Conditional operator
+
+conditionalExpression:
+	logicalOrExpression
+	| logicalOrExpression Quotation expression Colon conditionalExpression
+	;
+
+// 3.3.16 Assignment operators
+
+assignmentExpression:
+	conditionalExpression
+	| unaryExpression AssignmentOperator assignmentExpression
+	;
+
+// 3.3.17 Comma operator
+
+expression:
+	assignmentExpression
+	| expression Comma assignmentExpression
+	;
+
+// 3.4 Constant expression
+
+constantExpression:
+	conditionalExpression;
+
+// 3.5 Declarations
+
+declaration:
+	declarationSpecifiers initDeclaratorList? Semicolon
+	;
+
+declarationSpecifiers:
+	storageClassSpecifier declarationSpecifiers?
+	| typeSpecifier declarationSpecifiers?
+	| typeQualifier declarationSpecifiers?
+	;
+
+initDeclaratorList:
+	initDeclarator
+	| initDeclaratorList Comma initDeclarator
+	;
+
+initDeclarator:
+	declarator
+	| declarator AssignOperator initializer
+	;
+
+// 3.5.1 Storage-class specifiers
+
+storageClassSpecifier:
+	Typedef
+	| Extern
+	| Static
+	| Auto
+	| Register
+	;
+
+// 3.5.2 Type specifiers
+
+typeSpecifier:
+	Void | Char | Short | Int | Long
+	| Float | Double | Signed | Unsigned
+	| structOrUnionSpecifier | enumSpecifier | typedefName
+	;
+
+// 3.5.2.1 Structure and union specifiers
+
+structOrUnionSpecifier:
+	structOrUnion identifier? LeftCurlyBracket structDeclarationList RightCurlyBracket
+	| structOrUnion identifier
+	;
+
+structOrUnion:
+	Struct | Union;
+
+structDeclarationList:
+	structDeclaration*
+	;
+
+structDeclaration:
+	specifierQualifierList structDeclaratorList Semicolon ;
+
+specifierQualifierList:
+	typeSpecifier specifierQualifierList?
+	| typeQualifier specifierQualifierList
+	;
+
+structDeclaratorList:
+	structDeclarator (Comma structDeclarator)+
+	;
+
+structDeclarator:
+	declarator
+	| declarator? Colon constantExpression
+	;
+
+
+// 3.5.2.2 Enumeration specifiers
+
+enumSpecifier:
+	Enum identifier? LeftCurlyBracket enumeratorList RightCurlyBracket
+	| Enum identifier
+	;
+
+enumeratorList:
+	enumerator (Comma enumerator)+
+	;
+
+enumerator:
+	enumerationConstant
+	| enumerationConstant AssignOperator constantExpression
+	;
+
+// 3.5.3 Type qualifiers
+
+typeQualifier:
+	Const | Volatile ;
+
+// 3.5.4 Declarators
+
+declarator:
+	pointer? directDeclarator
+	;
+
+directDeclarator:
+	identifier
+	| LeftParen declarator RightParen
+	| directDeclarator LeftSquareBracket constantExpression? RightSquareBracket
+	| directDeclarator LeftParen parameterTypeList RightParen
+	| directDeclarator LeftParen identifierList? RightParen
+	;
+
+pointer:
+	Star typeQualifierList?
+	| Star typeQualifierList? pointer
+	;
+
+typeQualifierList:
+	typeQualifier typeQualifier*
+	;
+
+parameterTypeList:
+	parameterList (Comma Ellipsis)?
+	;
+
+parameterList:
+	parameterDeclaration (Comma parameterDeclaration)*
+	;
+
+parameterDeclaration:
+	declarationSpecifiers declarator
+	| declarationSpecifiers abstractDeclarator?
+	;
+
+identifierList:
+	identifier (Comma identifier)*
+	;
+
+// 3.5.5 Type names
+
+typename:
+	specifierQualifierList abstractDeclarator?
+	;
+
+abstractDeclarator:
+	pointer
+	| pointer? directAbstractDeclarator
+	;
+
+directAbstractDeclarator:
+	LeftParen abstractDeclarator RightParen
+	| LeftSquareBracket constantExpression? RightSquareBracket
+	| LeftParen parameterTypeList? RightParen
+	| directAbstractDeclarator LeftSquareBracket constantExpression? RightSquareBracket
+	| directAbstractDeclarator LeftParen parameterTypeList? RightParen
+	;
+
+// 3.5.6 Type definitions
+
+typedefName:
+	identifier;
+
+// 3.5.7 Initialization
+
+initializer:
+	assignmentExpression
+	| LeftCurlyBracket initializerList RightCurlyBracket
+	| LeftCurlyBracket initializerList Comma RightCurlyBracket
+	;
+
+initializerList:
+	initializer (Comma initializer)*
+	;
