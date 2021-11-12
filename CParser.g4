@@ -109,3 +109,28 @@ operator:
 punctuator:
 	SubscriptOperator | CallOperator | 
 	(LeftCurlyBracket RightCurlyBracket) | Star | Comma | Colon | Equal | Semicolon | (Dot Dot Dot) | Number;
+
+// 3.1.7 Header names
+
+headerName:
+	LeftAngleBracket hCharSequence RightAngleBracket
+	| Quotation qCharSequence Quotation;
+
+hCharSequence:
+	hChar+;
+
+hChar:
+	HCharSet;
+
+qCharSequence:
+	qChar+;
+
+qChar:
+	QCharSet;
+
+// 3.1.8 Preprocessing numbers
+
+ppNumber:
+	Digit
+	| Dot Digit
+	| ppNumber (Digit | Nondigit | (LowerE Sign) | (UpperE Sign) | Dot)+;
