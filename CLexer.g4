@@ -32,8 +32,13 @@ VerticalBar: '|';
 RightCurlyBracket: '}';
 Tilde: '~';
 
+Zero: '0';
+
 UpperE: 'E';
 LowerE: 'e';
+
+UpperX: 'X';
+LowerX: 'x';
 
 // 3.1.1 Keywords
 
@@ -85,3 +90,20 @@ Sign:
 
 FloatingSuffix:
 	[flFL];
+
+// Integer constants
+
+NonzeroDigit:
+	[1-9];
+
+OctalDigit:
+	[0-7];
+
+HexadecimalDigit:
+	[0-9a-fA-F];
+
+UnsignedSuffix:
+	[uU];
+
+LongSuffix:
+	[lL];

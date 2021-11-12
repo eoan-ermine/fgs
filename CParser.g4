@@ -35,3 +35,23 @@ exponentPart:
 
 digitSequence:
 	Digit+;
+
+// 3.1.3.2 Integer constants
+
+integerConstant:
+	decimalConstant integerSuffix?
+	| octalConstant integerSuffix?
+	| hexadecimalConstant integerSuffix?;
+
+decimalConstant:
+	NonzeroDigit Digit*;
+
+octalConstant:
+	Zero OctalDigit*;
+
+hexadecimalConstant:
+	Zero (LowerX | UpperX) HexadecimalDigit+;
+
+integerSuffix:
+	UnsignedSuffix LongSuffix?
+	| LongSuffix UnsignedSuffix?;
