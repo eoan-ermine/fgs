@@ -32,6 +32,9 @@ VerticalBar: '|';
 RightCurlyBracket: '}';
 Tilde: '~';
 
+UpperE: 'E';
+LowerE: 'e';
+
 // 3.1.1 Keywords
 
 Auto: 'auto';

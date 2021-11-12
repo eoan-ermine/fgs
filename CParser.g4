@@ -19,3 +19,19 @@ keyword:
 
 identifier:
 	Nondigit (Nondigit | Digit)*;
+
+// 3.1.3.1 Floating constants
+
+floatingConstant:
+	fractionalConstant exponentPart? FloatingSuffix?
+	| digitSequence exponentPart FloatingSuffix?;
+
+fractionalConstant:
+	digitSequence? '.' digitSequence
+	| digitSequence '.';
+
+exponentPart:
+	(LowerE | UpperE) Sign? digitSequence;
+
+digitSequence:
+	Digit+;
