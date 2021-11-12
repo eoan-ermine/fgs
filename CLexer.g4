@@ -1,5 +1,7 @@
 lexer grammar CLexer;
 
+// 3.1.1 Keywords
+
 Auto: 'auto';
 Double: 'double';
 Int: 'int';
@@ -32,3 +34,11 @@ Do: 'do';
 If: 'if';
 Static: 'static';
 While: 'while';
+
+// 3.1.2 Identifiers
+
+Nondigit:
+	[_a-zA-Z];
+
+Digit:
+	[0-9];
