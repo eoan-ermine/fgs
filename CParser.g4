@@ -10,7 +10,7 @@ token:
 	| identifier
 	| constant
 	| stringLiteral
-	| operator
+	| operator_
 	| punctuator
 	;
 
@@ -20,7 +20,7 @@ preprocessingToken:
 	| ppNumber
 	| characterConstant
 	| stringLiteral
-	| operator
+	| operator_
 	| punctuator
 	;
 
@@ -112,7 +112,7 @@ simpleEscapeSequence:
 	(Backslash Apostrophe) | (Backslash Quotation) | (Backslash Backslash) | (Backslash LowerA) | (Backslash LowerB) | (Backslash LowerF) | (Backslash LowerN) | (Backslash LowerR) | (Backslash LowerT) | (Backslash LowerV);
 
 octalEscapeSequence:
-	Backslash OctalDigit{1-3};
+	Backslash (digits+=OctalDigit)+ {$digits.size() <= 3}?;
 
 hexadecimalEscapeSequence:
 	Backslash LowerX HexadecimalDigit+;
@@ -131,7 +131,7 @@ sChar:
 
 // 3.1.5 Operators
 
-operator:
+operator_:
 	SubscriptOperator | CallOperator | MemberAccesSOperator | MemberPointerAccessOperator | IncOperator | DecOperator | AddressOfOperator | MulOperator | AddOperator | SubOperator | BinaryNotOperator | LogicalNotOperator | SizeofOperator | DivOperator | RemOperator | LeftShiftOperator | RightShiftOperator | LessOperator | GreaterOperator | LessEqualOperator | GreaterEqualOperator | EqualOperator | NotEqualOperator | XorOperator | BinaryOrOperator | LogicalAndOperator | LogicalOrOperator | TernaryOperator | AssignOperator | MulAssignOperator | DivAssignOperator | RemAssignOperator | AddAssignOperator | SubAssignOperator | LeftShiftAssignOperator | RightShiftAssignOperator | BinaryAndAssignOperator | XorAssignOperator | BinaryOrAssignOperator | TokenOperator | ConcatenationOperator;
 
 // 3.1.6 Punctuators
@@ -196,14 +196,14 @@ unaryExpression:
 	| DecOperator unaryExpression # PreDec
 	| UnaryOperator castExpression # UnaryCast
 	| Sizeof unaryExpression # SizeofExpr
-	| Sizeof LeftParen typename RightParen # SizeofType
+	| Sizeof LeftParen typename_ RightParen # SizeofType
 	;
 
 // 3.3.4 Cast operators
 
 castExpression:
 	unaryExpression
-	| LeftParen typename RightParen castExpression;
+	| LeftParen typename_ RightParen castExpression;
 
 // 3.3.5 Multiplicative operators
 
@@ -444,7 +444,7 @@ identifierList:
 
 // 3.5.5 Type names
 
-typename:
+typename_:
 	specifierQualifierList abstractDeclarator?
 	;
 

@@ -25,13 +25,19 @@ include_directories(${LLVM_INCLUDE_DIRS})
 add_definitions(${LLVM_DEFINITIONS})
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
 
-antlr_target(CTarget C.g4)
-include_directories(${ANTLR_CTarget_OUTPUT_DIR})
+antlr_target(CLexer CLexer.g4 LEXER)
+antlr_target(CParser CParser.g4 PARSER
+             DEPENDS_ANTLR CLexer
+             COMPILE_FLAGS -lib ${ANTLR_CLexer_OUTPUT_DIR})
+
+include_directories(${ANTLR_CLexer_OUTPUT_DIR})
+include_directories(${ANTLR_CParser_OUTPUT_DIR})
 
 # Now build our tools
 add_executable(fgs
 	main.cpp
-	${ANTLR_CTarget_CXX_OUTPUTS}
+	${ANTLR_CLexer_CXX_OUTPUTS}
+	${ANTLR_CParser_CXX_OUTPUTS}
 	${SOURCE_FILES}
 )
 
