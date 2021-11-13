@@ -456,3 +456,64 @@ initializer:
 initializerList:
 	initializer (Comma initializer)*
 	;
+
+// 3.6 Statements
+
+statement:
+	labeledStatement
+	| compoundStatement
+	| expressionStatement
+	| selectionStatement
+	| iterationStatement
+	| jumpStatement
+	;
+
+// 3.6.1 Labeled statements
+
+labeledStatement:
+	identifier Colon statement
+	| Case constantExpression Colon statement
+	| Default Colon statement
+	;
+
+// 3.6.2 Compound statement
+
+compoundStatement:
+	LeftCurlyBracket declarationList? statementList? RightCurlyBracket
+	;
+
+declarationList:
+	declaration+;
+
+statementList:
+	statement+;
+
+// 3.6.3 Expression and null statements
+
+expressionStatement:
+	expression? Semicolon;
+
+// 3.6.4 Selection statements
+
+selectionStatement:
+	If LeftParen expression RightParen statement
+	| If LeftParen expression RightParen statement Else statement
+	| Switch LeftParen expression RightParen statement
+	;
+
+// 3.6.5 Iteration statements
+
+iterationStatement:
+	While LeftParen expression RightParen statement
+	| Do statement While LeftParen expression RightParen Semicolon
+	| For LeftParen expression? Semicolon expression? Semicolon expression? RightParen statement
+	;
+
+// 3.6.6 Jump statements
+
+jumpStatement:
+	Goto identifier Semicolon
+	| Continue Semicolon
+	| Break Semicolon
+	| Return expression? Semicolon
+	;
