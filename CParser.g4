@@ -3,6 +3,27 @@ options {
 	tokenVocab = CLexer;
 }
 
+// 3.1 Lexical elements
+
+token:
+	keyword
+	| identifier
+	| constant
+	| stringLiteral
+	| operator
+	| punctuator
+	;
+
+preprocessingToken:
+	headerName
+	| identifier
+	| ppNumber
+	| characterConstant
+	| stringLiteral
+	| operator
+	| punctuator
+	;
+
 // 3.1.1 Keywords
 
 keyword:
@@ -534,3 +555,53 @@ functionDefinition:
 	| declarationList? compoundStatement
 	;
 
+// 3.8 Preprocessing directives
+
+preprocessingFile:
+	group?;
+
+group:
+	groupPart+;
+
+groupPart:
+	ppTokens? NEWLINE
+	| ifSection
+	| controlLine;
+
+ifSection:
+	ifGroup elifGroups? elseGroup? endifLine;
+
+ifGroup:
+	Ampersand If constantExpression NEWLINE group?
+	| Ampersand Ifdef identifier NEWLINE group?
+	| Ampersand Ifndef identifier NEWLINE group?
+	;
+
+elifGroups:
+	elifGroup+;
+
+elifGroup:
+	Ampersand Elif constantExpression NEWLINE group?;
+
+elseGroup:
+	Ampersand Else NEWLINE group?;
+
+endifLine:
+	Ampersand Endif NEWLINE;
+
+controlLine:
+	Ampersand Include ppTokens NEWLINE
+	| Ampersand Define identifier replacementList NEWLINE
+	| Ampersand Define identifier LeftParen identifierList RightParen replacementList NEWLINE
+	| Ampersand Undef identifier NEWLINE
+	| Ampersand Line ppTokens NEWLINE
+	| Ampersand Error ppTokens? NEWLINE
+	| Ampersand Pragma ppTokens? NEWLINE
+	| Ampersand NEWLINE
+	;
+
+replacementList:
+	ppTokens?;
+
+ppTokens:
+	preprocessingToken+;

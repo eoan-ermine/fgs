@@ -158,6 +158,17 @@ If: 'if';
 Static: 'static';
 While: 'while';
 
+Ifdef: 'ifdef';
+Ifndef: 'ifndef';
+Elif: 'elif';
+Endif: 'endif';
+Include: 'include';
+Define: 'define';
+Undef: 'undef';
+Line: 'line';
+Error: 'error';
+Pragma: 'pragma';
+
 // 3.1.2 Identifiers
 
 Nondigit:
@@ -206,3 +217,6 @@ UnaryOperator:
 AssignmentOperator:
 	AssignOperator | MulAssignOperator | DivAssignOperator | RemAssignOperator | AddAssignOperator | SubAssignOperator | LeftShiftAssignOperator | RightShiftAssignOperator | BinaryAndAssignOperator | XorAssignOperator | BinaryOrAssignOperator
 	;
+
+NEWLINE:
+	'\r\n' | '\n';
