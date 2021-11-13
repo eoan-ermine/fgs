@@ -517,3 +517,20 @@ jumpStatement:
 	| Break Semicolon
 	| Return expression? Semicolon
 	;
+
+// 3.7 External definitions
+
+translationUnit:
+	externalDeclaration+;
+
+externalDeclaration:
+	functionDefinition
+	| declaration;
+
+// 3.7.1 Function definitions
+
+functionDefinition:
+	declarationSpecifiers? declarator
+	| declarationList? compoundStatement
+	;
+
