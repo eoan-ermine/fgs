@@ -1,6 +1,6 @@
 #pragma once
 
-#include <bit>
+#include <cmath>
 
 enum class Base {
 	Decimal,
@@ -9,7 +9,7 @@ enum class Base {
 };
 
 unsigned int getIntegerByteWidth(__int128 integer) {
-		unsigned int bitWidth = std::bit_width(integer);
+		unsigned int bitWidth = std::ceil(std::log2(integer));
 		unsigned int byteWidth = std::ceil(bitWidth / 8.0);
 
 		if(byteWidth >= 0 && byteWidth <= sizeof(int)) {
