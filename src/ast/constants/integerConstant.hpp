@@ -8,8 +8,8 @@
 class integerConstant: ASTNode {
 	__int128 value;
 public:
-	integerConstant(int value_): value(value_) { }
-	llvm::Value* codegen(llvm::LLVMContext& context) {
+	integerConstant(__int128 value_): value(value_) { }
+	llvm::Value* codegen(State&, llvm::LLVMContext& context) {
 		return llvm::ConstantInt::get(
 			context, llvm::APInt(getIntegerByteWidth(value) * CHAR_BIT, value)
 		);
