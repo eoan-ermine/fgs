@@ -31,12 +31,24 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
 antlr_target(CTarget C.g4)
 include_directories(${ANTLR_CTarget_OUTPUT_DIR})
 
-# Now build our tools
-add_executable(fgs
+set(SOURCES
 	main.cpp
-	${ANTLR_CTarget_CXX_OUTPUTS}
-	${SOURCE_FILES}
+	codegen/codegenState.cpp
 )
+set(HEADERS
+	ast/node.hpp
+	ast/constants/integer/integerConstant.hpp
+
+	codegen/codegenState.hpp
+)
+
+# Now build our tools
+add_executable(${PROJECT_NAME}
+	${HEADERS}
+	${SOURCES}
+	${ANTLR_CTarget_CXX_OUTPUTS}
+)
+target_include_directories(${PROJECT_NAME} PUBLIC .)
 
 # Find the libraries that correspond to the LLVM components
 # that we wish to use
