@@ -28,7 +28,7 @@ include_directories(${LLVM_INCLUDE_DIRS})
 add_definitions(${LLVM_DEFINITIONS})
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
 
-antlr_target(CTarget C.g4)
+antlr_target(CTarget C.g4 VISITOR)
 include_directories(${ANTLR_CTarget_OUTPUT_DIR})
 
 set(SOURCES

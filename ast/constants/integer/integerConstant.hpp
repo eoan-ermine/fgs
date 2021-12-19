@@ -15,6 +15,8 @@ namespace fgs::ast {
 
 struct IntegerConstant: public ASTNode {
 	int64_t value;
+
+	IntegerConstant(int64_t value): value(value) { }
 	llvm::Value* codegen() override {
 		auto codegenState = fgs::codegen::CodegenState{};
 		return llvm::ConstantInt::getSigned(
@@ -24,7 +26,7 @@ struct IntegerConstant: public ASTNode {
 	}
 };
 
-int64_t parseIntegerConstant(const std::string& number) {
+IntegerConstant parseIntegerConstant(const std::string& number) {
 	long long result = 0;
 
 	if(number.starts_with("0b") || number.starts_with("0B")) {
@@ -43,7 +45,7 @@ int64_t parseIntegerConstant(const std::string& number) {
 		result = std::stoll(number, nullptr);
 	}
 
-	return static_cast<int64_t>(result);
+	return IntegerConstant(static_cast<int64_t>(result));
 }
 
 }

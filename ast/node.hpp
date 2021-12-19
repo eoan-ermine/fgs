@@ -8,7 +8,7 @@ struct ASTNode {
 	ASTNode* left;
 	ASTNode* right;
 
-	virtual ~ASTNode() = 0;
+	virtual ~ASTNode() { };
 	virtual llvm::Value* codegen() = 0;
 };
 
