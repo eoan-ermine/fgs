@@ -5,8 +5,11 @@ list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 set(CMAKE_CXX_STANDARD 20)
 add_definitions(-DANTLR4CPP_STATIC)
 
+set(ANTLR4_WITH_STATIC_CRT OFF)
+set(ANTLR4_TAG 4.9.3)
+
 include(ExternalAntlr4Cpp)
-set(ANTLR_EXECUTABLE /usr/local/lib/antlr-4.9.2-complete.jar)
+set(ANTLR_EXECUTABLE /usr/local/lib/antlr-4.9.3-complete.jar)
 set(ANTLR4_RUNTIME_LIBRARIES /usr/local/lib)
 include_directories(${ANTLR4_INCLUDE_DIRS})
 
@@ -41,4 +44,3 @@ llvm_map_components_to_libnames(llvm_libs support core irreader)
 
 # Link against LLVM libraries
 target_link_libraries(fgs antlr4_static ${llvm_libs})
-
