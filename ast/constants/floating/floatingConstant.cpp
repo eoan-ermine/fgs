@@ -1,3 +1,4 @@
+#include <type_traits>
 #include <cstddef>
 #include <string>
 
@@ -9,16 +10,26 @@
 
 namespace fgs::ast {
 
+FloatingConstant::FloatingConstant(float value): value(value) { }
 FloatingConstant::FloatingConstant(double value): value(value) { }
+FloatingConstant::FloatingConstant(long double value): value(static_cast<double>(value)) { }
+
 llvm::Value* FloatingConstant::codegen() {
 	auto codegenState = fgs::codegen::CodegenState{};
-	return llvm::ConstantFP::get(
-		codegenState.context,
-		llvm::APFloat(value)
-	);
+	if(const float* number = std::get_if<float>(&value)) {
+        return llvm::ConstantFP::get(codegenState.context, llvm::APFloat(*number));
+	}
+	if(const double* number = std::get_if<double>(&value)) {
+        return llvm::ConstantFP::get(codegenState.context, llvm::APFloat(*number));
+	}
 }
 
 FloatingConstant parseFloatingConstant(const std::string& number) {
+	if(number.ends_with("l") || number.ends_with("L")) {
+		return FloatingConstant(std::stold(number));
+	} else if(number.ends_with("f") || number.ends_with("F")) {
+		return FloatingConstant(std::stof(number));
+	}
 	return FloatingConstant(std::stod(number));
 }
 
