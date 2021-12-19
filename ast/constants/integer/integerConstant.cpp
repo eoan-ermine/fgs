@@ -28,11 +28,11 @@ IntegerConstant parseIntegerConstant(const std::string& number) {
 		);
 	} else if(number.starts_with("0x") || number.starts_with("0X")) {
 		result = std::stoll(
-			number.substr(2), nullptr, 16
+			number, nullptr, 16
 		);
 	} else if(number.starts_with("0")) {
 		result = std::stoll(
-			number.substr(1), nullptr, 16
+			number, nullptr, 8
 		);
 	} else {
 		result = std::stoll(number, nullptr);
