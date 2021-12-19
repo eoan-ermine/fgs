@@ -1,6 +1,8 @@
 #pragma once
 
 #include <cstddef>
+#include <string>
+#include <string_view>
 
 #include "llvm/IR/LLVMContext.h"
 #include "llvm/IR/DerivedTypes.h"
@@ -21,5 +23,27 @@ struct IntegerConstant: public ASTNode {
 		);
 	}
 };
+
+int64_t parseIntegerConstant(const std::string& number) {
+	long long result = 0;
+
+	if(number.starts_with("0b") || number.starts_with("0B")) {
+		result = std::stoll(
+			number.substr(2), nullptr, 2
+		);
+	} else if(number.starts_with("0x") || number.starts_with("0X")) {
+		result = std::stoll(
+			number.substr(2), nullptr, 16
+		);
+	} else if(number.starts_with("0")) {
+		result = std::stoll(
+			number.substr(1), nullptr, 16
+		);
+	} else {
+		result = std::stoll(number, nullptr);
+	}
+
+	return static_cast<int64_t>(result);
+}
 
 }
