@@ -770,9 +770,9 @@ FloatingSuffix
 fragment
 CharacterConstant
     :   '\'' CCharSequence '\''
-    |   'L\'' CCharSequence '\''
-    |   'u\'' CCharSequence '\''
-    |   'U\'' CCharSequence '\''
+    |   'L\'' CChar '\''
+    |   'u\'' CChar '\''
+    |   'U\'' CChar '\''
     ;
 
 fragment
