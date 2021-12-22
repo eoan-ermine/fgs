@@ -7,16 +7,16 @@
 
 namespace fgs::ast {
 
-struct FloatingConstant: public ASTNode {
+class FloatingConstant: public ASTNode {
 	std::variant<float, double> value;
-
+public:
 	FloatingConstant(float value);
 	FloatingConstant(double value);
 	FloatingConstant(long double value);
 	
 	llvm::Value* codegen() override;
-};
 
-FloatingConstant parseFloatingConstant(const std::string& number);
+	static FloatingConstant parse(const std::string& number);
+};
 
 }

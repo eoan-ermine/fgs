@@ -19,7 +19,7 @@ llvm::Value* IntegerConstant::codegen() {
 	);
 }
 
-IntegerConstant parseIntegerConstant(const std::string& number) {
+IntegerConstant IntegerConstant::parse(const std::string& number) {
 	long long result = 0;
 
 	if(number.starts_with("0b") || number.starts_with("0B")) {

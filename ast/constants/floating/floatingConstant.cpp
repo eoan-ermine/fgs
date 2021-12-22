@@ -24,7 +24,7 @@ llvm::Value* FloatingConstant::codegen() {
 	}
 }
 
-FloatingConstant parseFloatingConstant(const std::string& number) {
+FloatingConstant FloatingConstant::parse(const std::string& number) {
 	if(number.ends_with("l") || number.ends_with("L")) {
 		return FloatingConstant(std::stold(number));
 	} else if(number.ends_with("f") || number.ends_with("F")) {

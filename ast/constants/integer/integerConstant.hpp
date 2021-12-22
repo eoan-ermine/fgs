@@ -7,12 +7,14 @@
 
 namespace fgs::ast {
 
-struct IntegerConstant: public ASTNode {
+class IntegerConstant: public ASTNode {
 	int64_t value;
+public:
 	IntegerConstant(int64_t value);
+	
 	llvm::Value* codegen() override;
-};
 
-IntegerConstant parseIntegerConstant(const std::string& number);
+	static IntegerConstant parse(const std::string& number);
+};
 
 }
