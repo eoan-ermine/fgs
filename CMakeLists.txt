@@ -33,11 +33,17 @@ include_directories(${ANTLR_CTarget_OUTPUT_DIR})
 
 set(SOURCES
 	main.cpp
+
+	ast/constants/integer/integerConstant.cpp
+	ast/constants/floating/floatingConstant.cpp
+
 	codegen/codegenState.cpp
 )
 set(HEADERS
 	ast/node.hpp
+
 	ast/constants/integer/integerConstant.hpp
+	ast/constants/floating/floatingConstant.hpp
 
 	codegen/codegenState.hpp
 )
