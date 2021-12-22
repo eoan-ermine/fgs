@@ -36,6 +36,7 @@ set(SOURCES
 
 	ast/constants/integer/integerConstant.cpp
 	ast/constants/floating/floatingConstant.cpp
+	ast/constants/character/characterConstant.cpp
 
 	codegen/codegenState.cpp
 )
@@ -44,7 +45,9 @@ set(HEADERS
 
 	ast/constants/integer/integerConstant.hpp
 	ast/constants/floating/floatingConstant.hpp
-
+	ast/constants/character/characterConstant.hpp
+	ast/constants/character/characterConstantType.hpp
+	
 	codegen/codegenState.hpp
 )
 
