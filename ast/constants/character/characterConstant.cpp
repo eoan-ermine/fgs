@@ -39,10 +39,28 @@ llvm::Value* CharacterConstant::codegen() {
 	);
 }
 
-CharacterConstant parseCharacterConstant(const std::string& character, CharacterConstantType type) {
+CharacterConstantType CharacterConstant::determineCharacterType(const std::string& character) {
+	CharacterConstantType type;
+	constexpr size_t SINGLEBYTE_CHARACTER_LENGTH = 3;
+
+	if(character.starts_with('u')) {
+		type = CharacterConstantType::UTF16;
+	} else if(character.starts_with('U')) {
+		type = CharacterConstantType::UTF32;
+	} else if(character.starts_with('L')) {
+		type = CharacterConstantType::Wide;
+	} else if(character.size() == SINGLEBYTE_CHARACTER_LENGTH) {
+		return CharacterConstantType::SingleByte;
+	}
+
+	return CharacterConstantType::Multicharacter;
+}
+
+CharacterConstant CharacterConstant::parse(const std::string& character) {
 	std::size_t leftBorder = 0;
 	std::size_t rightBorder = character.size() - 1;
 
+	CharacterConstantType type = CharacterConstant::determineCharacterType(character);
 	if(type != CharacterConstantType::SingleByte || type != CharacterConstantType::Multicharacter) {
 		leftBorder += 1;
 	}

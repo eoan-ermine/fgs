@@ -8,9 +8,10 @@
 
 namespace fgs::ast {
 
-struct CharacterConstant: public ASTNode {
+class CharacterConstant: public ASTNode {
 	std::variant<int, char16_t, char32_t, wchar_t> value;
-
+	static CharacterConstantType determineCharacterType(const std::string& character);
+public:
 	CharacterConstant(int value);
 	CharacterConstant(char16_t value);
 	CharacterConstant(char32_t value);
@@ -18,8 +19,8 @@ struct CharacterConstant: public ASTNode {
 
 	int64_t getUniformValue() const;
 	llvm::Value* codegen() override;
-};
 
-CharacterConstant parseCharacterConstant(const std::string& character, CharacterConstantType type);
+	static CharacterConstant parse(const std::string& character);
+};
 
 }
