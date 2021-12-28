@@ -6,31 +6,31 @@
 #include "llvm/ADT/APFloat.h"
 
 #include "floatingConstant.hpp"
+#include "floatingOffset.hpp"
 #include "codegen/codegenState.hpp"
 
 namespace fgs::ast {
 
-FloatingConstant::FloatingConstant(float value): value(value) { }
-FloatingConstant::FloatingConstant(double value): value(value) { }
-FloatingConstant::FloatingConstant(long double value): value(static_cast<double>(value)) { }
+FloatingConstant::FloatingConstant(double value, FloatingConstantType type): value(value), type(type) { }
 
 llvm::Value* FloatingConstant::codegen() {
 	auto codegenState = fgs::codegen::CodegenState{};
-	if(const float* number = std::get_if<float>(&value)) {
-        return llvm::ConstantFP::get(codegenState.context, llvm::APFloat(*number));
-	}
-	if(const double* number = std::get_if<double>(&value)) {
-        return llvm::ConstantFP::get(codegenState.context, llvm::APFloat(*number));
-	}
+	auto value = [&]() -> llvm::APFloat {
+		switch(type.getFloatingType()) {
+			case FloatingType::Float:
+				return llvm::APFloat(static_cast<float>(this->value));
+			case FloatingType::Double:
+			case FloatingType::LongDouble:
+				return llvm::APFloat{this->value};
+		}
+	}();
+    return llvm::ConstantFP::get(codegenState.context, value);
 }
 
 FloatingConstant FloatingConstant::parse(const std::string& number) {
-	if(number.ends_with("l") || number.ends_with("L")) {
-		return FloatingConstant(std::stold(number));
-	} else if(number.ends_with("f") || number.ends_with("F")) {
-		return FloatingConstant(std::stof(number));
-	}
-	return FloatingConstant(std::stod(number));
+	auto type = FloatingConstantType(number);
+	auto extractedNumber = extractFloating(number, type);
+	return FloatingConstant(std::stod(extractedNumber), FloatingConstantType(number));
 }
 
 }

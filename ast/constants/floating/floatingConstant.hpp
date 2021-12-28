@@ -4,18 +4,16 @@
 #include <variant>
 
 #include "ast/node.hpp"
+#include "floatingConstantType.hpp"
 
 namespace fgs::ast {
 
 class FloatingConstant: public ASTNode {
-	std::variant<float, double> value;
+	double value;
+	FloatingConstantType type;
+	FloatingConstant(double value, FloatingConstantType type);
 public:
-	FloatingConstant(float value);
-	FloatingConstant(double value);
-	FloatingConstant(long double value);
-	
 	llvm::Value* codegen() override;
-
 	static FloatingConstant parse(const std::string& number);
 };
 
