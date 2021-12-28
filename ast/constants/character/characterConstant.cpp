@@ -6,14 +6,17 @@
 #include "llvm/IR/Constants.h"
 
 #include "characterConstant.hpp"
+#include "characterConstantType.hpp"
+#include "utility.hpp"
+
 #include "codegen/codegenState.hpp"
 
 namespace fgs::ast {
 
-CharacterConstant::CharacterConstant(int value): value{value} { }
-CharacterConstant::CharacterConstant(char16_t value): value{value} { }
-CharacterConstant::CharacterConstant(char32_t value): value{value} { }
-CharacterConstant::CharacterConstant(wchar_t value): value{value} { }
+CharacterConstant::CharacterConstant(int value): value{value}, uniformValue{getUniformValue()} { }
+CharacterConstant::CharacterConstant(char16_t value): value{value}, uniformValue{getUniformValue()} { }
+CharacterConstant::CharacterConstant(char32_t value): value{value}, uniformValue{getUniformValue()} { }
+CharacterConstant::CharacterConstant(wchar_t value): value{value}, uniformValue{getUniformValue()} { }
 
 int64_t CharacterConstant::getUniformValue() const {
 	int64_t convertedValue{};
@@ -39,56 +42,33 @@ llvm::Value* CharacterConstant::codegen() {
 	);
 }
 
-CharacterConstantType CharacterConstant::determineCharacterType(const std::string& character) {
-	CharacterConstantType type;
-	constexpr size_t SINGLEBYTE_CHARACTER_LENGTH = 3;
-
-	if(character.starts_with('u')) {
-		type = CharacterConstantType::UTF16;
-	} else if(character.starts_with('U')) {
-		type = CharacterConstantType::UTF32;
-	} else if(character.starts_with('L')) {
-		type = CharacterConstantType::Wide;
-	} else if(character.size() == SINGLEBYTE_CHARACTER_LENGTH) {
-		return CharacterConstantType::SingleByte;
-	}
-
-	return CharacterConstantType::Multicharacter;
-}
-
 CharacterConstant CharacterConstant::parse(const std::string& character) {
-	std::size_t leftBorder = 0;
-	std::size_t rightBorder = character.size() - 1;
+	auto type = CharacterConstantType(character);
+	std::string extractedCharacter = extractCharacter(character, type);
+	int64_t internalRepresentation = [&]() {
+		switch(type.getFormatType()) {
+			case FormatType::Hexadecimal:
+				return std::stoi(extractedCharacter, nullptr, 16);
+			case FormatType::Octal:
+				return std::stoi(extractedCharacter, nullptr, 8);
+			case FormatType::Decimal:
+				return std::stoi(extractedCharacter, nullptr, 10);
+		}
+	}();
 
-	CharacterConstantType type = CharacterConstant::determineCharacterType(character);
-	if(type != CharacterConstantType::SingleByte || type != CharacterConstantType::Multicharacter) {
-		leftBorder += 1;
-	}
-
-	int64_t internalRepresentation = 0;
-	if(character.starts_with("\\u") || character.starts_with("\\U")) {
-		leftBorder += 2;
-		internalRepresentation = std::stoi(character.substr(leftBorder, rightBorder), nullptr, 16);
-	} else if(character.starts_with("\\")) {
-		leftBorder += 1;
-		internalRepresentation = std::stoi(character.substr(leftBorder, rightBorder), nullptr, 8);
-	} else {
-		internalRepresentation = std::stoi(character.substr(leftBorder, rightBorder), nullptr, 10);
-	}
-
-	switch(type) {
-		case CharacterConstantType::SingleByte:
+	switch(type.getCharacterType()) {
+		case CharacterType::SingleByte:
 			[[fallthrough]];
-		case CharacterConstantType::Multicharacter:
+		case CharacterType::Multicharacter:
 			return CharacterConstant(static_cast<int>(internalRepresentation));
 			break;
-		case CharacterConstantType::UTF16:
+		case CharacterType::UTF16:
 			return CharacterConstant(static_cast<char16_t>(internalRepresentation));
 			break;
-		case CharacterConstantType::UTF32:
+		case CharacterType::UTF32:
 			return CharacterConstant(static_cast<char32_t>(internalRepresentation));
 			break;
-		case CharacterConstantType::Wide:
+		case CharacterType::Wide:
 			return CharacterConstant(static_cast<wchar_t>(internalRepresentation));
 			break;
 	}
