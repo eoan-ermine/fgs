@@ -16,10 +16,10 @@ public:
 				left += 1;
 		}
 		switch(type.getFormatType()) {
-			case FormatType::Hexadecimal:
+			case CharacterFormatType::Hexadecimal:
 				left += 2;
 				break;
-			case FormatType::Octal:
+			case CharacterFormatType::Octal:
 				left += 1;
 				break;
 		}

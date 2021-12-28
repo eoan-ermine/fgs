@@ -10,7 +10,7 @@ enum class CharacterType {
 	Multicharacter
 };
 
-enum class FormatType {
+enum class CharacterFormatType {
 	Hexadecimal,
 	Octal,
 	Decimal
@@ -18,49 +18,46 @@ enum class FormatType {
 
 class CharacterConstantType {
 	CharacterType characterType;
-	FormatType formatType;
+	CharacterFormatType formatType;
 
 	static CharacterType determineCharacterType(const std::string& character) {
-		CharacterType type;
 		constexpr size_t SINGLEBYTE_CHARACTER_LENGTH = 3;
 
 		if(character.starts_with('u')) {
-			type = CharacterType::UTF16;
+			return CharacterType::UTF16;
 		} else if(character.starts_with('U')) {
-			type = CharacterType::UTF32;
+			return CharacterType::UTF32;
 		} else if(character.starts_with('L')) {
-			type = CharacterType::Wide;
+			return CharacterType::Wide;
 		} else if(character.size() == SINGLEBYTE_CHARACTER_LENGTH) {
 			return CharacterType::SingleByte;
 		}
 
 		return CharacterType::Multicharacter;
 	}
-	static FormatType determineFormatType(const std::string& character) {
-		FormatType type;
+	static CharacterFormatType determineCharacterFormatType(const std::string& character) {
+		// without leading quote
+		std::string trimmedCharacter = character.substr(1);
 
-		if(character.starts_with("\\x")) {
-			type = FormatType::Hexadecimal;
-		} else if(character.starts_with('\\')) {
-			type = FormatType::Octal;
-		} else {
-			type = FormatType::Decimal;
+		if(trimmedCharacter.starts_with("\\x")) {
+			return CharacterFormatType::Hexadecimal;
+		} else if(trimmedCharacter.starts_with('\\')) {
+			return CharacterFormatType::Octal;
 		}
-
-		return type;
+		return CharacterFormatType::Decimal;
 	}
 public:
 	CharacterConstantType(const std::string& character): characterType{
 		CharacterConstantType::determineCharacterType(character)
 	}, formatType{
-		CharacterConstantType::determineFormatType(character)
+		CharacterConstantType::determineCharacterFormatType(character)
 	} { }
 
 	CharacterType getCharacterType() const {
 		return characterType;
 	}
 
-	FormatType getFormatType() const {
+	CharacterFormatType getFormatType() const {
 		return formatType;
 	}
 };
