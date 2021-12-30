@@ -12,7 +12,7 @@ class FloatingConstant: public ASTNode {
 	FloatingConstant(llvm::APFloat value);
 public:
 	llvm::Value* codegen() override;
-	static FloatingConstant parse(const std::string& number);
+	static ASTNodePtr parse(const std::string& number);
 };
 
 }

@@ -12,7 +12,7 @@ class CharacterConstant: public ASTNode {
 	CharacterConstant(llvm::APInt value);
 public:
 	llvm::Value* codegen() override;
-	static CharacterConstant parse(const std::string& character);
+	static ASTNodePtr parse(const std::string& character);
 };
 
 }

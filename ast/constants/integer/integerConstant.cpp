@@ -18,7 +18,7 @@ llvm::Value* IntegerConstant::codegen() {
 	);
 }
 
-IntegerConstant IntegerConstant::parse(const std::string& number) {
+ASTNodePtr IntegerConstant::parse(const std::string& number) {
 	auto type = IntegerConstantType(number);
 	std::string extractedInteger = extractInteger(number, type);
 	llvm::APInt value = llvm::APInt(64, extractedInteger, static_cast<uint8_t>(type.getFormatType()));
@@ -29,7 +29,7 @@ IntegerConstant IntegerConstant::parse(const std::string& number) {
 	else if(bitWidth <= 32) bitWidth = 32;
 	value = value.trunc(bitWidth);
 
-	return IntegerConstant(value);
+	return ASTNodePtr{new IntegerConstant(value)};
 }
 
 }

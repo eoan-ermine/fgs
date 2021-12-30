@@ -17,7 +17,7 @@ llvm::Value* FloatingConstant::codegen() {
     return llvm::ConstantFP::get(codegenState.context, value);
 }
 
-FloatingConstant FloatingConstant::parse(const std::string& number) {
+ASTNodePtr FloatingConstant::parse(const std::string& number) {
 	auto type = FloatingConstantType(number);
 	auto extractedNumber = extractFloating(number, type);
 	
@@ -32,7 +32,7 @@ FloatingConstant FloatingConstant::parse(const std::string& number) {
 		}
 	}();
 	
-	return FloatingConstant(value);
+	return ASTNodePtr{new FloatingConstant{value}};
 }
 
 }

@@ -12,7 +12,7 @@ class IntegerConstant: public ASTNode {
 	IntegerConstant(llvm::APInt value);
 public:
 	llvm::Value* codegen() override;
-	static IntegerConstant parse(const std::string& number);
+	static ASTNodePtr parse(const std::string& number);
 };
 
 }

@@ -25,7 +25,7 @@ llvm::Value* CharacterConstant::codegen() {
 	);
 }
 
-CharacterConstant CharacterConstant::parse(const std::string& character) {
+ASTNodePtr CharacterConstant::parse(const std::string& character) {
 	auto type = CharacterConstantType(character);
 	std::string extractedCharacter = extractCharacter(character, type);
 	int64_t internalRepresentation = [&]() {
@@ -44,7 +44,7 @@ CharacterConstant CharacterConstant::parse(const std::string& character) {
 		return result;
 	}();
 
-	return CharacterConstant{llvm::APInt(64, internalRepresentation)};
+	return ASTNodePtr{new CharacterConstant{llvm::APInt(64, internalRepresentation)}};
 }
 
 }
