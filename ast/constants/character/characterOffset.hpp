@@ -8,6 +8,7 @@ class CharacterOffset {
 	std::size_t left;
 	std::size_t right;
 public:
+	// left = 1 and right = character.size() - 1 because of leading and closing quotes
 	CharacterOffset(const std::string& character, CharacterConstantType type): left{1}, right{character.size() - 1} {
 		switch(type.getCharacterType()) {
 			case CharacterType::UTF16:
@@ -15,12 +16,11 @@ public:
 			case CharacterType::Wide:
 				left += 1;
 		}
+
+		// there are no octal 'cause we can ignore leading zero
 		switch(type.getFormatType()) {
 			case CharacterFormatType::Hexadecimal:
 				left += 2;
-				break;
-			case CharacterFormatType::Octal:
-				left += 1;
 				break;
 		}
 	}

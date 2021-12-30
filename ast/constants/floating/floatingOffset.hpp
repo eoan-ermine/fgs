@@ -8,7 +8,7 @@ class FloatingOffset {
 	std::size_t left;
 	std::size_t right;
 public:
-	FloatingOffset(const std::string& character, FloatingConstantType type): left{}, right{character.size()} {
+	FloatingOffset(const std::string& floating, FloatingConstantType type): left{}, right{floating.size()} {
 		switch(type.getFloatingType()) {
 			case FloatingType::Float:
 			case FloatingType::LongDouble:

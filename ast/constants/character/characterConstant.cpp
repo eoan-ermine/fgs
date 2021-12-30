@@ -4,6 +4,8 @@
 
 #include "llvm/IR/LLVMContext.h"
 #include "llvm/IR/DerivedTypes.h"
+#include <string>
+
 #include "llvm/IR/Constants.h"
 
 #include "characterConstant.hpp"
@@ -14,14 +16,12 @@
 
 namespace fgs::ast {
 
-CharacterConstant::CharacterConstant(int64_t value, CharacterConstantType type): 
-	value{value}, type{type} { }
+CharacterConstant::CharacterConstant(llvm::APInt value): value{value} { }
 
 llvm::Value* CharacterConstant::codegen() {
 	auto codegenState = fgs::codegen::CodegenState{};
-	return llvm::ConstantInt::getSigned(
-		llvm::Type::getInt64Ty(codegenState.context),
-		value
+	return llvm::ConstantInt::get(
+		codegenState.context, value
 	);
 }
 
@@ -44,7 +44,7 @@ CharacterConstant CharacterConstant::parse(const std::string& character) {
 		return result;
 	}();
 
-	return CharacterConstant{internalRepresentation, type};
+	return CharacterConstant{llvm::APInt(64, internalRepresentation)};
 }
 
 }

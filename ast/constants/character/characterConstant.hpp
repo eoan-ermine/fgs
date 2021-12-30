@@ -1,17 +1,15 @@
 #pragma once
 
 #include <string>
-#include <variant>
 
 #include "ast/node.hpp"
-#include "characterConstantType.hpp"
+#include "llvm/ADT/APInt.h"
 
 namespace fgs::ast {
 
 class CharacterConstant: public ASTNode {
-	int64_t value;
-	CharacterConstantType type;
-	CharacterConstant(int64_t value, CharacterConstantType type);
+	llvm::APInt value;
+	CharacterConstant(llvm::APInt value);
 public:
 	llvm::Value* codegen() override;
 	static CharacterConstant parse(const std::string& character);

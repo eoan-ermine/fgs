@@ -1,10 +1,6 @@
-#include <cstddef>
 #include <string>
 
-#include "llvm/IR/LLVMContext.h"
-#include "llvm/IR/DerivedTypes.h"
 #include "llvm/IR/Constants.h"
-#include "llvm/IR/Type.h"
 
 #include "integerConstant.hpp"
 #include "integerConstantType.hpp"

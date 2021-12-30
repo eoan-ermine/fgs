@@ -1,5 +1,7 @@
 #pragma once
 
+#include <string>
+
 namespace fgs::ast {
 
 enum class FloatingType {
