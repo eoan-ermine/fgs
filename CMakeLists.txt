@@ -38,6 +38,8 @@ set(SOURCES
 	ast/constants/floating/floatingConstant.cpp
 	ast/constants/integer/integerConstant.cpp
 
+	ast/literals/string/stringLiteral.cpp
+
 	codegen/codegenState.cpp
 
 	parser/CParseVisitor.cpp
@@ -56,6 +58,8 @@ set(HEADERS
 	ast/constants/integer/integerConstant.hpp
 	ast/constants/integer/integerConstantType.hpp
 	ast/constants/integer/integerOffset.hpp
+
+	ast/literals/string/stringLiteral.hpp
 
 	codegen/codegenState.hpp
 )
