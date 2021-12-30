@@ -1,5 +1,6 @@
 #pragma once
 
+#include <string_view>
 #include "floatingConstantType.hpp"
 
 namespace fgs::ast {
@@ -8,7 +9,7 @@ class FloatingOffset {
 	std::size_t left;
 	std::size_t right;
 public:
-	FloatingOffset(const std::string& floating, FloatingConstantType type): left{}, right{floating.size()} {
+	FloatingOffset(std::string_view floating, FloatingConstantType type): left{}, right{floating.size()} {
 		switch(type.getFloatingType()) {
 			case FloatingType::Float:
 			case FloatingType::LongDouble:

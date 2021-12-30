@@ -1,6 +1,6 @@
 #pragma once
 
-#include <string>
+#include <string_view>
 
 namespace fgs::ast {
 
@@ -9,7 +9,7 @@ enum class IntegerSignedness {
 	Unsigned
 };
 
-IntegerSignedness determineIntegerSignedness(const std::string& integer) {
+IntegerSignedness determineIntegerSignedness(std::string_view integer) {
 	bool unsignedSuffixFound = (integer.find('u') != std::string::npos) ||
 									(integer.find('U') != std::string::npos);
 	return unsignedSuffixFound ? IntegerSignedness::Unsigned : IntegerSignedness::Default;
@@ -20,7 +20,7 @@ enum class IntegerWidth {
 	LongLong
 };
 
-IntegerWidth determineIntegerWidth(const std::string &integer) {
+IntegerWidth determineIntegerWidth(std::string_view integer) {
 	bool longLongSuffixFound = (integer.find("ll") != std::string::npos) ||
 									(integer.find("LL") != std::string::npos);
 	return longLongSuffixFound ? IntegerWidth::LongLong : IntegerWidth::Default;
@@ -30,7 +30,7 @@ class IntegerType {
 	IntegerSignedness signedness;
 	IntegerWidth width;
 public:
-	IntegerType(const std::string& integer): signedness{
+	IntegerType(std::string_view integer): signedness{
 		determineIntegerSignedness(integer)
 	}, width{
 		determineIntegerWidth(integer)
@@ -51,7 +51,7 @@ enum class IntegerFormatType {
 	Hexadecimal = 16
 };
 
-IntegerFormatType determineIntegerFormatType(const std::string& integer) {
+IntegerFormatType determineIntegerFormatType(std::string_view integer) {
 	if(integer.starts_with('0')) {
 		return IntegerFormatType::Octal;
 	} else if(integer.starts_with("0x") || integer.starts_with("0X")) {
@@ -67,7 +67,7 @@ class IntegerConstantType {
 	IntegerType integerType;
 	IntegerFormatType formatType;
 public:
-	IntegerConstantType(const std::string& integer): integerType{
+	IntegerConstantType(std::string_view integer): integerType{
 		integer
 	}, formatType{
 		determineIntegerFormatType(integer)

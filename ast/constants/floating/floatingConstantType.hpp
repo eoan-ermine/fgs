@@ -1,6 +1,6 @@
 #pragma once
 
-#include <string>
+#include <string_view>
 
 namespace fgs::ast {
 
@@ -19,7 +19,7 @@ class FloatingConstantType {
 	FloatingType floatingType;
 	FloatingFormatType formatType;
 
-	static FloatingType determineFloatingType(const std::string& floating) {
+	static FloatingType determineFloatingType(std::string_view floating) {
 		if(floating.ends_with('f') || floating.ends_with('F')) {
 			return FloatingType::Float;
 		} else if(floating.ends_with('l') || floating.ends_with('L')) {
@@ -27,7 +27,7 @@ class FloatingConstantType {
 		}
 		return FloatingType::Double;
 	}
-	static FloatingFormatType determineFloatingFormatType(const std::string& floating) {
+	static FloatingFormatType determineFloatingFormatType(std::string_view floating) {
 		if(floating.starts_with("0x") || floating.starts_with("0X")) {
 			return FloatingFormatType::Hexadecimal;
 		}
@@ -35,7 +35,7 @@ class FloatingConstantType {
 		return FloatingFormatType::Decimal;
 	}
 public:
-	FloatingConstantType(const std::string& floating): floatingType{
+	FloatingConstantType(std::string_view floating): floatingType{
 		FloatingConstantType::determineFloatingType(floating)
 	}, formatType{
 		FloatingConstantType::determineFloatingFormatType(floating)

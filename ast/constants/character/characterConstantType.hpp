@@ -1,6 +1,6 @@
 #pragma once
 
-#include <string>
+#include <string_view>
 
 namespace fgs::ast {
 
@@ -12,7 +12,7 @@ enum class CharacterType {
 	Multicharacter
 };
 
-CharacterType determineCharacterType(const std::string& character) {
+CharacterType determineCharacterType(std::string_view character) {
 	constexpr size_t SINGLEBYTE_CHARACTER_LENGTH = 3;
 
 	if(character.starts_with('u')) {
@@ -34,7 +34,7 @@ enum class CharacterFormatType {
 	Decimal = 10
 };
 
-CharacterFormatType determineCharacterFormatType(const std::string& character) {
+CharacterFormatType determineCharacterFormatType(std::string_view character) {
 	// ' is leading quote
 	if(character.starts_with("'\\x")) {
 		return CharacterFormatType::Hexadecimal;
@@ -48,7 +48,7 @@ class CharacterConstantType {
 	CharacterType characterType;
 	CharacterFormatType formatType;
 public:
-	CharacterConstantType(const std::string& character): characterType{
+	CharacterConstantType(std::string_view character): characterType{
 		determineCharacterType(character)
 	}, formatType{
 		determineCharacterFormatType(character)

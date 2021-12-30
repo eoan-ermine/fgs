@@ -1,5 +1,6 @@
 #pragma once
 
+#include <string_view>
 #include "characterConstantType.hpp"
 
 namespace fgs::ast {
@@ -9,7 +10,7 @@ class CharacterOffset {
 	std::size_t right;
 public:
 	// left = 1 and right = character.size() - 1 because of leading and closing quotes
-	CharacterOffset(const std::string& character, CharacterConstantType type): left{1}, right{character.size() - 1} {
+	CharacterOffset(std::string_view character, CharacterConstantType type): left{1}, right{character.size() - 1} {
 		switch(type.getCharacterType()) {
 			case CharacterType::UTF16:
 			case CharacterType::UTF32:

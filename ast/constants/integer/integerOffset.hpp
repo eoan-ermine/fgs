@@ -1,5 +1,6 @@
 #pragma once
 
+#include <string_view>
 #include "integerConstantType.hpp"
 
 namespace fgs::ast {
@@ -8,7 +9,7 @@ class IntegerOffset {
 	std::size_t left;
 	std::size_t right;
 public:
-	IntegerOffset(const std::string& integer, IntegerConstantType type): left{}, right{integer.size()} {
+	IntegerOffset(std::string_view integer, IntegerConstantType type): left{}, right{integer.size()} {
 		IntegerType integerType = type.getIntegerType();
 		switch(integerType.getSignedness()) {
 			case IntegerSignedness::Unsigned:
