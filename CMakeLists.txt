@@ -14,7 +14,7 @@ set(ANTLR4_RUNTIME_LIBRARIES /usr/local/lib)
 include_directories(${ANTLR4_INCLUDE_DIRS})
 
 find_package(ANTLR REQUIRED)
-find_package(LLVM REQUIRED CONFIG)
+find_package(LLVM 14 REQUIRED CONFIG)
 
 message(STATUS "Found LLVM ${LLVM_PACKAGE_VERSION}")
 message(STATUS "Using LLVMConfig.cmake in: ${LLVM_DIR}")
@@ -28,19 +28,51 @@ include_directories(${LLVM_INCLUDE_DIRS})
 add_definitions(${LLVM_DEFINITIONS})
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
 
-antlr_target(CTarget C.g4)
+antlr_target(CTarget C.g4 VISITOR)
 include_directories(${ANTLR_CTarget_OUTPUT_DIR})
 
-# Now build our tools
-add_executable(fgs
+set(SOURCES
 	main.cpp
-	${ANTLR_CTarget_CXX_OUTPUTS}
-	${SOURCE_FILES}
+
+	ast/constants/character/characterConstant.cpp
+	ast/constants/floating/floatingConstant.cpp
+	ast/constants/integer/integerConstant.cpp
+
+	codegen/codegenState.cpp
+
+	parser/CParseVisitor.cpp
 )
+set(HEADERS
+	ast/node.hpp
+
+	ast/constants/character/characterConstant.hpp
+	ast/constants/character/characterConstantType.hpp
+	ast/constants/character/characterOffset.hpp
+
+	ast/constants/floating/floatingConstant.hpp
+	ast/constants/floating/floatingConstantType.hpp
+	ast/constants/floating/floatingOffset.hpp
+
+	ast/constants/integer/integerConstant.hpp
+	ast/constants/integer/integerConstantType.hpp
+	ast/constants/integer/integerOffset.hpp
+
+	codegen/codegenState.hpp
+)
+
+# Now build our tools
+add_executable(${PROJECT_NAME}
+	${HEADERS}
+	${SOURCES}
+	${ANTLR_CTarget_CXX_OUTPUTS}
+)
+target_include_directories(${PROJECT_NAME} PUBLIC .)
 
 # Find the libraries that correspond to the LLVM components
 # that we wish to use
-llvm_map_components_to_libnames(llvm_libs support core irreader)
+llvm_map_components_to_libnames(llvm_libs Support Core IRReader)
+
+message(STATUS "Using LLVM libs: ${llvm_libs}")
 
 # Link against LLVM libraries
 target_link_libraries(fgs antlr4_static ${llvm_libs})

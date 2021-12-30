@@ -32,7 +32,7 @@ grammar C;
 
 primaryExpression
     :   Identifier
-    |   Constant
+    |   constant
     |   StringLiteral+
     |   '(' expression ')'
     |   genericSelection
@@ -631,14 +631,13 @@ HexQuad
     :   HexadecimalDigit HexadecimalDigit HexadecimalDigit HexadecimalDigit
     ;
 
-Constant
-    :   IntegerConstant
-    |   FloatingConstant
+constant
+    :   IntegerConstant # integerConstant
+    |   FloatingConstant # floatingConstant
     //|   EnumerationConstant
-    |   CharacterConstant
+    |   CharacterConstant # characterConstant
     ;
 
-fragment
 IntegerConstant
     :   DecimalConstant IntegerSuffix?
     |   OctalConstant IntegerSuffix?
@@ -709,7 +708,6 @@ LongLongSuffix
     :   'll' | 'LL'
     ;
 
-fragment
 FloatingConstant
     :   DecimalFloatingConstant
     |   HexadecimalFloatingConstant
@@ -767,12 +765,11 @@ FloatingSuffix
     :   [flFL]
     ;
 
-fragment
 CharacterConstant
     :   '\'' CCharSequence '\''
-    |   'L\'' CCharSequence '\''
-    |   'u\'' CCharSequence '\''
-    |   'U\'' CCharSequence '\''
+    |   'L\'' CChar '\''
+    |   'u\'' CChar '\''
+    |   'U\'' CChar '\''
     ;
 
 fragment
