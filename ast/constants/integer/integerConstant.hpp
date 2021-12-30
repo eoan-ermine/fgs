@@ -4,16 +4,15 @@
 #include <string>
 
 #include "ast/node.hpp"
+#include "llvm/ADT/APInt.h"
 
 namespace fgs::ast {
 
 class IntegerConstant: public ASTNode {
-	int64_t value;
+	llvm::APInt value;
+	IntegerConstant(llvm::APInt value);
 public:
-	IntegerConstant(int64_t value);
-	
 	llvm::Value* codegen() override;
-
 	static IntegerConstant parse(const std::string& number);
 };
 
