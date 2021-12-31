@@ -3,16 +3,15 @@
 #include <string>
 
 #include "ast/node.hpp"
-#include "llvm/ADT/APInt.h"
+#include "common/character.hpp"
 
 namespace fgs::ast {
 
 class CharacterConstant: public ASTNode {
-	llvm::APInt value;
-	CharacterConstant(llvm::APInt value);
+	::fgs::common::Character value;
 public:
+	CharacterConstant(const std::string& character);
 	llvm::Value* codegen() override;
-	static ASTNodePtr parse(const std::string& character);
 };
 
 }

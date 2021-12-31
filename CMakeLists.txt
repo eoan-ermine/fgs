@@ -34,6 +34,10 @@ include_directories(${ANTLR_CTarget_OUTPUT_DIR})
 set(SOURCES
 	main.cpp
 
+	common/character.cpp
+	common/floating.cpp
+	common/integer.cpp
+
 	ast/constants/character/characterConstant.cpp
 	ast/constants/floating/floatingConstant.cpp
 	ast/constants/integer/integerConstant.cpp
@@ -47,17 +51,13 @@ set(SOURCES
 set(HEADERS
 	ast/node.hpp
 
+	common/character.hpp
+	common/floating.hpp
+	common/integer.hpp
+
 	ast/constants/character/characterConstant.hpp
-	ast/constants/character/characterConstantType.hpp
-	ast/constants/character/characterOffset.hpp
-
 	ast/constants/floating/floatingConstant.hpp
-	ast/constants/floating/floatingConstantType.hpp
-	ast/constants/floating/floatingOffset.hpp
-
 	ast/constants/integer/integerConstant.hpp
-	ast/constants/integer/integerConstantType.hpp
-	ast/constants/integer/integerOffset.hpp
 
 	ast/literals/string/stringLiteral.hpp
 
