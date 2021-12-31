@@ -9,10 +9,9 @@ namespace fgs::ast {
 
 class StringLiteral: public ASTNode {
 	std::string value;
-	StringLiteral(std::string);
 public:
 	llvm::Value* codegen() override;
-	ASTNodePtr parse(const std::string&);
+	StringLiteral(const std::string&);
 };
 
 }
