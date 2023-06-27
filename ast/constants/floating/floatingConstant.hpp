@@ -3,16 +3,15 @@
 #include <string>
 
 #include "ast/node.hpp"
-#include "llvm/ADT/APFloat.h"
+#include "common/floating.hpp"
 
 namespace fgs::ast {
 
 class FloatingConstant: public ASTNode {
-	llvm::APFloat value;
-	FloatingConstant(llvm::APFloat value);
+	::fgs::common::Floating value;
 public:
+	FloatingConstant(const std::string& value);
 	llvm::Value* codegen() override;
-	static ASTNodePtr parse(const std::string& number);
 };
 
 }

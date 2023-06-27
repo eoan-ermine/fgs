@@ -6,14 +6,14 @@
 
 class CParseVisitor : public CBaseVisitor {
   virtual antlrcpp::Any visitIntegerConstant(CParser::IntegerConstantContext *ctx) override {
-  	return fgs::ast::IntegerConstant::parse(ctx->toString());
+  	return fgs::ast::ASTNodePtr{new fgs::ast::IntegerConstant(ctx->toString())};
   }
 
   virtual antlrcpp::Any visitFloatingConstant(CParser::FloatingConstantContext *ctx) override {
-  	return fgs::ast::FloatingConstant::parse(ctx->toString());
+  	return fgs::ast::ASTNodePtr{new fgs::ast::FloatingConstant(ctx->toString())};
   }
 
   virtual antlrcpp::Any visitCharacterConstant(CParser::CharacterConstantContext *ctx) override {
-    return fgs::ast::CharacterConstant::parse(ctx->toString());
+    return fgs::ast::ASTNodePtr{new fgs::ast::CharacterConstant(ctx->toString())};
   }
 };
